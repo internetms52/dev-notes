@@ -11,5 +11,5 @@ flowchart LR
   A-->B["B(reference lock I)"]
   B-->C["A(finished, remove map entry)"]
   C-->D["B(finished, remove map entry)"]
-  D-->E["lock I null reference"]
+  D-->E["No references to lock I"]
 ```
