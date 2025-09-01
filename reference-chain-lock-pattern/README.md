@@ -5,8 +5,7 @@ the lock object becomes eligible for garbage collection automatically, eliminati
 explicit cleanup scheduling or memory management.
 
 ## Explain
-```mermaid
-flowchart TD
+```flowchart TD
     Start([Start]) --> Check{Check if lock "I"<br/>exists in map}
 
     Check -->|Not exists| Create[A: Create new lock "I"<br/>and add to map]
