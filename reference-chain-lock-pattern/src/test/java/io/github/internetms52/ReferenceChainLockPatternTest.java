@@ -16,20 +16,22 @@ public class ReferenceChainLockPatternTest {
 
     @Test
     public void testConcurrentSameKey() {
+        int threadCount = 100;
         String key = "testKey";
         AtomicInteger counter = new AtomicInteger(0);
-        CountDownLatch latch = new CountDownLatch(5);
+        CountDownLatch latch = new CountDownLatch(threadCount);
 
         // 創建5個 CompletableFuture 任務
-        CompletableFuture<Void>[] tasks = new CompletableFuture[5];
+        CompletableFuture<Void>[] tasks = new CompletableFuture[threadCount];
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < threadCount; i++) {
             tasks[i] = CompletableFuture.runAsync(() -> {
                 try {
                     Semaphore semaphore = ReferenceChainLockPattern.tryLock(key);
                     System.out.println(Thread.currentThread().getId() + " is working.");
                     // 模擬工作時間
-                    Thread.sleep(100);
+                    double sleepSeconds = 100 * Math.random();
+                    Thread.sleep((int) sleepSeconds);
                     counter.incrementAndGet();
                     ReferenceChainLockPattern.releaseLock(semaphore, key);
                 } catch (InterruptedException e) {
@@ -50,6 +52,6 @@ public class ReferenceChainLockPatternTest {
                 throw new RuntimeException(e);
             }
         });
-        assertEquals(5, counter.get()); // 所有線程都應該成功執行
+        assertEquals(threadCount, counter.get()); // 所有線程都應該成功執行
     }
 }
