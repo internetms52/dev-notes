@@ -37,6 +37,7 @@ sequenceDiagram
     ThreadB->>Lock_I: Perform work
     ThreadB->>Lock_I: Release lock
     ThreadB->>Map: Try to remove entry (already removed)
+    Note over ThreadB: ThreadB finished
     Note over Lock_I: No more references
     Note over Lock_I: Eligible for GC
 ```
