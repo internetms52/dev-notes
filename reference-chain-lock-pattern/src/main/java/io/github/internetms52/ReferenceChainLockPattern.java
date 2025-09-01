@@ -1,22 +1,21 @@
 package io.github.internetms52;
 
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ReferenceChainLockPattern {
-    private final ConcurrentHashMap<String, ReentrantLock> memberLocks = new ConcurrentHashMap<>();
+    private final static ConcurrentHashMap<String, Semaphore> memberSemaphores = new ConcurrentHashMap<>();
 
-    boolean tryLock(String key) throws InterruptedException {
-        ReentrantLock lock = memberLocks.computeIfAbsent(key, k -> new ReentrantLock());
-        return lock.tryLock(30, TimeUnit.SECONDS);
+    static Semaphore tryLock(String key) throws InterruptedException {
+        Semaphore lock = memberSemaphores.computeIfAbsent(key, k -> new Semaphore(1));
+        lock.acquire();
+        return lock;
     }
 
-    void releaseLock(String memberUid) {
-        ReentrantLock lock = memberLocks.remove(memberUid);
-        if (lock != null) {
-            lock.unlock();
-        }
+    static void releaseLock(Semaphore semaphore, String key) {
+        memberSemaphores.remove(key, semaphore);
+        semaphore.release(); // 直接釋放，讓 Semaphore 自己處理
     }
-
 }
