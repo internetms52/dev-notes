@@ -6,10 +6,10 @@ explicit cleanup scheduling or memory management.
 
 ## Explain
 ```mermaid
-  root(chained-scenario)-->A["A(create lock "I")"]
-  A-->B["B(reference lock "I")"]
+  root(chained-scenario)-->A["A(create lock 'I')"]
+  A-->B["B(reference lock 'I')"]
   B-->C["A(finished, remove map entry.)"]
   C-->D["B(keep the reference.)"]
   D-->E["B(finished, remove map entry.)"]
-  E-->F["lock "I" null reference.]
+  E-->F["lock 'I' null reference.]
 ```
