@@ -15,8 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReferenceChainLockPatternTest {
-    ReferenceChainLockPattern referenceChainLockPattern = new ReferenceChainLockPattern();
-
     @Test
     public void testConcurrentSameKey() {
         int threadCount = 100;
@@ -33,8 +31,8 @@ public class ReferenceChainLockPatternTest {
                     Semaphore semaphore = ReferenceChainLockPattern.tryLock(key);
                     System.out.println(Thread.currentThread().getId() + " is working.");
                     // 模擬工作時間
-                    double sleepSeconds = 100 * Math.random();
-                    Thread.sleep((int) sleepSeconds);
+                    double sleepMillis = 100 * Math.random();
+                    Thread.sleep((int) sleepMillis);
                     counter.incrementAndGet();
                     ReferenceChainLockPattern.releaseLock(semaphore, key);
                 } catch (InterruptedException e) {
