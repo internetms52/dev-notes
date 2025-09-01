@@ -10,7 +10,6 @@ flowchart LR
   root(chained-scenario)-->A["A(create lock I)"]
   A-->B["B(reference lock I)"]
   B-->C["A(finished, remove map entry)"]
-  C-->D["B(keep the reference.)"]
-  D-->E["B(finished, remove map entry)"]
-  E-->F["lock I null reference"]
+  C-->D["B(finished, remove map entry)"]
+  D-->E["lock I null reference"]
 ```
