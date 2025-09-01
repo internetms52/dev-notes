@@ -6,7 +6,6 @@ explicit cleanup scheduling or memory management.
 
 ## Explain
 ```mermaid
-flowchart LR
   root(chained-scenario)-->A["A(create lock "I")"]
   A-->B["B(reference lock "I")"]
   B-->C["A(finished, remove map entry.)"]
